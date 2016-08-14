@@ -171,3 +171,71 @@ javax.persistence.criteria
 javax.persistence.metamodel
 javax.persistence.spi
 ```
+
+######29 mapping 
+JDBC rules for mapping primitives  
+String->varchar(255)
+Long->Bigint
+Boolean->smallint
+
+=======
+change table name
+```
+@Entity
+@Table(name = "OTHER_NAME")
+public class Author {
+  @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
+  @Column(name="first",length=50)
+  private String firstName
+  //DATE,TIME,TIMESTAMP
+  @Temporal(TemporalType.TIMESTAMP
+  private Date dateOfBirth
+  @Transient
+  private Integer age; //do not want to be mapped
+  @Enumerated(EnumType.ORDINAL)
+  private Lang lang;//enum
+}
+```
+######30 querying
+```
+public class Service{
+@PersistenceContext(unitName="")
+private EntityManager em;
+public Book createBook(Long id,String title,String dest){
+  Book book =new Book();
+  book.setId(id);
+  em.persist(book);  //memorize.
+  return book;
+}
+```
+removing an entity
+```
+@Persis...
+private EntityManager em;
+public void removeBook(Book book){//delete by book object,not id
+em.remove(em.merge(book));
+}
+}
+```
+######31 JPQL
+using alias
+```
+select b from Book b where b.cost>10
+```
+example
+```
+pblic List<Book> findBigBooks(){
+  TypedQuery<Book> query = em.createQuery("select b from Book b where u.cost>2",Book.class);
+  List<Book> books = query.getResultList();
+  return books;
+}
+```
+bind param
+```
+pblic List<Book> findBigBooks(Float cost, Float page){
+  TypedQuery<Book> query = em.createQuery("select b from Book b where u.cost>?1 and u.page>?2",Book.class);
+  List<Book> books = query.getResultList();
+  return books;
+}
+```
