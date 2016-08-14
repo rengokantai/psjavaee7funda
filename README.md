@@ -239,3 +239,33 @@ pblic List<Book> findBigBooks(Float cost, Float page){
   return books;
 }
 ```
+######32 JTA
+java transaction API  
+
+######34 transaction policy
+REQUIRED,REQUIRES_NEW
+######35 batch processing 
+JBatch
+######36 
+Job
+```
+<job id=""
+  <step id="">
+    <chunk item-count="1">
+      <reader ref=
+      <processor ref=
+      <writer ref=
+    </chunk>
+  </step>
+  <step id="...">..</step>
+</job>
+```
+spring batch api:
+```
+@Named
+public class P implements ItemProcessor
+  @Override
+  public Object processItem(Object item) throws Exception{
+}
+```
+  }
